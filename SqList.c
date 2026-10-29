@@ -93,3 +93,53 @@ Status ListTraverse(SqList L){
     }
     return OK;
 }
+
+//3
+
+Status Union(SqList *La,SqList Lb){
+    int i,j,found;
+    for(i=0;i<Lb.length;i++){
+        found = 0;
+
+        for(j=0;j<La->length;j++){
+            if(Lb.elem[i] == La->elem[j]){
+                found++;
+                break;
+            }
+        }
+
+        if(found == 0){
+            Status result = ListInsert(La, La->length + 1, Lb.elem[i]);
+            if(result == ERROR)
+                return ERROR;
+        }
+    }
+    return OK;
+}
+
+
+Status Intersection(SqList *La, SqList Lb){
+    int i, j, found;
+    ElemType deleted;
+    i = 1;
+    while(i <= La->length){
+        found = 0;
+        for(j = 0; j < Lb.length; j++){
+            if(La->elem[i - 1] == Lb.elem[j]){
+                found = 1;
+                break;
+            }
+        }
+        if(found == 0){//在b里面没找到当前的a[i-1],也就是非交部分
+            Status result = ListDelete(La, i, &deleted);
+
+            if(result == ERROR){
+                return ERROR;
+            }
+        }else{//只有没删除的情况下才执行i++,避免删除后下标会前移从而跳过下一个element
+            i++;
+        }
+    }
+    return OK;
+}
+
