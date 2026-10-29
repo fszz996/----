@@ -24,10 +24,12 @@ Status InitList(SqList *L){
     }
 
     L->length = MAXSIZE;
+    return OK;
 }
 
 Status ClearList(SqList *L){
     L->length = 0;
+    return OK;
 }
 
 int ListLength(SqList L){
@@ -35,8 +37,9 @@ int ListLength(SqList L){
 }
 
 Status GetElem(SqList L,int i,ElemType *e){
-    if (i>=0 && i<L.length){
+    if (i>=1 && i<=L.length){
         *e = L.elem[i-1];
+        return OK;
     }
 
     return ERROR;
@@ -65,23 +68,28 @@ Status ListInsert(SqList *L,int i,ElemType e){
 
     L->elem[i-1] = e;
     L->length++;
+    return OK;
 }
 
-Status ListDelete(SqList *L,int i,ElemType e){
-    if(i<1||i>L->length+1){
+Status ListDelete(SqList *L,int i,ElemType *e){
+    if(i<1||i>L->length){
         return ERROR;
     }
+
+    *e = L->elem[i-1]; 
 
     int j;
     for(j=i-1;j<L->length-1;j++){
         L->elem[j] = L->elem[j+1];
     }
     L->length--;
+    return OK;
 }
 
 Status ListTraverse(SqList L){
     int i;
     for(i=0;i<L.length;i++){
-        printf(L.elem[i]);
+        printf("%d\n",L.elem[i]);
     }
+    return OK;
 }
